@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lillian Ye | Strategy & Operations Interview</title>
+
+    <!-- Fonts: Clash Display (Bold) and Satoshi (Body) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=satoshi@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           DESIGN SYSTEM: BOLD SIGNAL (DOORDASH RED)
+           =========================================== */
+        :root {
+            /* Colors */
+            --bg-primary: #0a0c10;
+            --bg-secondary: #14181f;
+            --accent: #FF3008;
+            /* DoorDash Red */
+            --accent-glow: rgba(255, 48, 8, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+
+            /* Typography Scaling */
+            --font-display: 'Clash Display', sans-serif;
+            --font-body: 'Satoshi', sans-serif;
+
+            --title-size: clamp(2.5rem, 8vw, 5rem);
+            --h2-size: clamp(1.75rem, 5vw, 3rem);
+            --h3-size: clamp(1.25rem, 3vw, 1.75rem);
+            --body-size: clamp(0.875rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.75rem, 1vw, 0.875rem);
+
+            /* Spacing */
+            --slide-padding: clamp(2rem, 6vw, 6rem);
+            --content-gap: clamp(1.5rem, 3vw, 3rem);
+            --element-gap: clamp(0.5rem, 1.5vw, 1rem);
+
+            /* Animation */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.8s;
+        }
+
+        /* ===========================================
+           MANDATORY VIEWPORT FITTING
+           =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* Lock scroll to JS controller */
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .presentation-container {
+            height: 100%;
+            width: 100%;
+            transition: transform var(--duration) var(--ease-out-expo);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            padding: var(--slide-padding);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            z-index: 2;
+        }
+
+        /* ===========================================
+           COMPONENTS
+           =========================================== */
+
+        /* Typography */
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            line-height: 1.1;
+            margin-bottom: var(--element-gap);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            line-height: 1.2;
+            margin-bottom: var(--content-gap);
+            color: var(--text-primary);
+        }
+
+        .accent-text {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: var(--h3-size);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Lists */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--content-gap);
+        }
+
+        .bullet-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .bullet-dot {
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .bullet-text strong {
+            display: block;
+            font-size: var(--h3-size);
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .bullet-text p {
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--content-gap);
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            height: 100%;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-family: var(--font-display);
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* 30/60/90 Timeline */
+        .timeline {
+            display: flex;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            flex: 1;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        /* Nav */
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--text-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.5);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ===========================================
+           ANIMATIONS
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                transform var(--duration) var(--ease-out-expo);
+        }
+
+        .slide.active .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* Background Decor */
+        .bg-glow {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: -10vw;
+            right: -10vw;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                flex-direction: column;
+            }
+
+            :root {
+                --slide-padding: 2rem;
+            }
+        }
+
+        @media (max-height: 600px) {
+            h2 {
+                margin-bottom: 1rem;
+            }
+
+            .bullet-list {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-bar" id="progress"></div>
+    <nav class="nav-dots" id="dots"></nav>
+
+    <div class="presentation-container" id="container">
+
+        <!-- SLIDE 1: TITLE -->
+        <section class="slide">
+            <div class="bg-glow"></div>
+            <div class="slide-content">
+                <img src="./DoorDash.png" alt="DoorDash" style="height: 180px; margin-bottom: 3rem; display: block;"
+                    class="reveal">
+                <h1 class="reveal accent-text" style="margin-bottom: 0.5rem;">Lillian Ye</h1>
+                <p class="subtitle reveal delay-1" style="font-size: var(--h2-size); color: var(--text-primary);">
+                    Candidate for Senior
+                    Associate, Marketplace Strategy and Planning</p>
+                <div style="margin-top: 4rem; height: 1px; width: 60px; background: var(--accent);"
+                    class="reveal delay-2"></div>
+                <p style="margin-top: 1rem; font-size: var(--small-size); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);"
+                    class="reveal delay-3">DoorDash US Marketplace Growth</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: THE TRUTH SEEKER -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="reveal">Scaling Insights Through Analytical Precision</h2>
+                <ul class="bullet-list">
+                    <li class="bullet-item reveal delay-1">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong><span class="accent-text">Warner Bros. Discovery</span> | Senior Sales
+                                Analyst</strong>
+                            <p>Streamlined reporting for 80+ international markets, synthesizing complex sales data into
+                                actionable insights and dashboards for executive stakeholders.</p>
+                        </div>
+                    </li>
+                    <li class="bullet-item reveal delay-2">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong><span class="accent-text">Team SoloMid</span> | Global Sales Strategy
+                                Analyst</strong>
+                            <p>Used audience and platform data to support partnership planning; helped craft six-figure
+                                pitch narratives and materials that brought in new business.</p>
+                        </div>
+                    </li>
+                    <li class="bullet-item reveal delay-3">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong><span class="accent-text">Bank of America</span> | Wealth and Asset Management
+                                Analyst</strong>
+                            <p>Managed high-net-worth portfolios and conducted granular market research for asset
+                                allocation across US and International sectors.</p>
+                        </div>
+                    </li>
+                    <li class="bullet-item reveal delay-4">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong><span class="accent-text">Strategic Skill Set</span></strong>
+                            <p>Performance Management, Strategic Planning, Data-Informed Storytelling, and Collective
+                                Accountability.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: OPERATIONAL EXCELLENCE -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="reveal">Operational Excellence & Process Innovation</h2>
+                <div class="grid-3" style="margin-bottom: 3rem;">
+                    <div class="card reveal delay-1">
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-body); font-weight: 500;"
+                            class="accent-text">KettleSpace</h3>
+                        <p
+                            style="font-size: var(--h3-size); margin-bottom: 1rem; color: var(--text-primary); font-family: var(--font-display);">
+                            +37% Profitability</p>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size);">Refined contract playbooks
+                            and workflows, optimizing unit economics across locations.</p>
+                    </div>
+                    <div class="card reveal delay-2">
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-body); font-weight: 500;"
+                            class="accent-text">Sonder</h3>
+                        <p
+                            style="font-size: var(--h3-size); margin-bottom: 1rem; color: var(--text-primary); font-family: var(--font-display);">
+                            15+ Member Teams</p>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size);">Designed expansion plans
+                            and implemented protocols to enhance guest satisfaction during rapid scale.</p>
+                    </div>
+                    <div class="card reveal delay-3">
+                        <h3 style="font-size: 1.25rem; font-family: var(--font-body); font-weight: 500;"
+                            class="accent-text">Core Value</h3>
+                        <p
+                            style="font-size: var(--h3-size); margin-bottom: 1rem; color: var(--text-primary); font-family: var(--font-display);">
+                            Execute with Precision</p>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size);">Proven ability to bridge
+                            the gap between high-level strategy and granular execution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: TOOLS & AI -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="reveal">Optimizing Analytics with Modern Tooling</h2>
+                <div class="grid-3">
+                    <div class="reveal delay-1">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2.25rem;"
+                            class="accent-text">The
+                            Powerhouse</h3>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size); line-height: 1.6;">
+                            Leveraging <strong>Excel and Tableau</strong> as primary drivers for routine analytics and
+                            direct data synthesis.
+                        </p>
+                    </div>
+                    <div class="reveal delay-2">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2.25rem;"
+                            class="accent-text">The Edge
+                        </h3>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size); line-height: 1.6;">
+                            Supplementary mastery of <strong>Claude</strong> and Gemini to automate repetitive tasks and
+                            drive operational efficiency.
+                        </p>
+                    </div>
+                    <div class="reveal delay-3">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2.25rem;"
+                            class="accent-text">The
+                            Vision</h3>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size); line-height: 1.6;">
+                            Building robust mechanisms that drive real-time alignment and process improvements across
+                            internal stakeholders.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: STRATEGIC PERSPECTIVE -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="reveal">Accelerating the US Marketplace</h2>
+                <ul class="bullet-list">
+                    <li class="bullet-item reveal delay-1">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong style="font-size: 2rem; color: var(--accent);">Global-to-Local Value</strong>
+                            <p>Leveraging international experience (WBD) and US-focused fanbase strategy (TSM) to scale
+                                regional partnerships effectively.</p>
+                        </div>
+                    </li>
+                    <li class="bullet-item reveal delay-2">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong style="font-size: 2rem; color: var(--accent);">Integrated Execution</strong>
+                            <p>Bridging departments to ensure data clarity and process efficiency between regional and
+                                international teams.</p>
+                        </div>
+                    </li>
+                    <li class="bullet-item reveal delay-3">
+                        <div class="bullet-dot"></div>
+                        <div class="bullet-text">
+                            <strong style="font-size: 2rem; color: var(--accent);">Market Precision</strong>
+                            <p>Deep dive into current performance trends to find the "lowest level of detail" and drive
+                                actionable marketplace growth.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: ROADMAP -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="reveal">Roadmap for Impact</h2>
+                <div class="timeline">
+                    <div class="timeline-item reveal delay-1">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2rem;"
+                            class="accent-text">30 DAYS
+                        </h3>
+                        <p style="font-size: var(--body-size); color: var(--text-secondary);">Listen & Learn: Audit
+                            internal data systems, build relationships with multidisciplinary teams, and understand
+                            performance drivers.</p>
+                    </div>
+                    <div class="timeline-item reveal delay-2">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2rem;"
+                            class="accent-text">60 DAYS
+                        </h3>
+                        <p style="font-size: var(--body-size); color: var(--text-secondary);">Optimize & Innovate:
+                            Identify analytical bottlenecks; pilot improvements using Tableau/Excel supplemented by AI
+                            for speed.</p>
+                    </div>
+                    <div class="timeline-item reveal delay-3">
+                        <h3 style="margin-bottom: 1rem; font-family: var(--font-display); font-size: 2rem;"
+                            class="accent-text">90 DAYS
+                        </h3>
+                        <p style="font-size: var(--body-size); color: var(--text-secondary);">Execute & Scale: Own
+                            performance tracking for major segments; lead the first strategic business planning cycle
+                            for Growth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: CONCLUSION -->
+        <section class="slide" style="text-align: center;">
+            <div class="slide-content">
+                <img src="./DoorDash.png" alt="DoorDash"
+                    style="height: 180px; margin-bottom: 2rem; display: inline-block;" class="reveal">
+                <h2 class="reveal" style="margin-bottom: 1.5rem;">Empowering Local Economies</h2>
+                <div class="subtitle reveal delay-1"
+                    style="max-width: 950px; margin: 0 auto 3rem auto; line-height: 1.6; text-wrap: balance;">
+                    My mission is to leverage analytical precision and operational grit to accelerate US Marketplace
+                    Growth and deliver impact at scale.
+                </div>
+                <div class="reveal delay-2" style="display: flex; justify-content: center;">
+                    <div
+                        style="padding: 2.5rem; background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; min-width: 350px; text-align: left;">
+                        <h3 class="accent-text"
+                            style="font-family: var(--font-display); margin-bottom: 1rem; font-size: 2rem;">
+                            Lillian Ye</h3>
+                        <p
+                            style="color: var(--text-primary); font-size: 1.25rem; margin-bottom: 1rem; font-weight: 500;">
+                            Candidate for Senior Associate, Marketplace Strategy and Planning</p>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size); margin-bottom: 0.5rem;">
+                            Lillian.ye21@gmail.com</p>
+                        <p style="color: var(--text-secondary); font-size: var(--body-size);">
+                            https://www.linkedin.com/in/lillian-ye/</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        class Presentation {
+            constructor() {
+                this.container = document.getElementById('container');
+                this.slides = document.querySelectorAll('.slide');
+                this.dotsContainer = document.getElementById('dots');
+                this.progress = document.getElementById('progress');
+                this.currentSlide = 0;
+                this.isAnimating = false;
+
+                this.init();
+            }
+
+            init() {
+                // Create dots
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.dotsContainer.appendChild(dot);
+                });
+
+                // Listen for scroll/keyboard
+                window.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
+                window.addEventListener('keydown', (e) => this.handleKeydown(e));
+
+                // Swipes
+                let touchStartY = 0;
+                window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+                window.addEventListener('touchend', e => {
+                    const touchEndY = e.changedTouches[0].clientY;
+                    if (touchStartY - touchEndY > 50) this.nextSlide();
+                    if (touchEndY - touchStartY > 50) this.prevSlide();
+                });
+
+                this.updateSlideState();
+            }
+
+            handleWheel(e) {
+                e.preventDefault();
+                if (this.isAnimating) return;
+
+                if (e.deltaY > 50) this.nextSlide();
+                if (e.deltaY < -50) this.prevSlide();
+            }
+
+            handleKeydown(e) {
+                if (['ArrowDown', 'ArrowRight', ' '].includes(e.key)) this.nextSlide();
+                if (['ArrowUp', 'ArrowLeft'].includes(e.key)) this.prevSlide();
+            }
+
+            nextSlide() {
+                if (this.currentSlide < this.slides.length - 1) {
+                    this.goToSlide(this.currentSlide + 1);
+                }
+            }
+
+            prevSlide() {
+                if (this.currentSlide > 0) {
+                    this.goToSlide(this.currentSlide - 1);
+                }
+            }
+
+            goToSlide(index) {
+                if (this.isAnimating || index === this.currentSlide) return;
+
+                this.isAnimating = true;
+                this.currentSlide = index;
+
+                // Animate container
+                this.container.style.transform = `translateY(-${index * 100}vh)`;
+
+                this.updateSlideState();
+
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, 800);
+            }
+
+            updateSlideState() {
+                // Update active class for animations
+                this.slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === this.currentSlide);
+                });
+
+                // Update dots
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentSlide);
+                });
+
+                // Update progress
+                const percent = ((this.currentSlide + 1) / this.slides.length) * 100;
+                this.progress.style.width = `${percent}%`;
+            }
+        }
+
+        // Initialize when DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new Presentation();
+        });
+    </script>
+</body>
+
+</html>
